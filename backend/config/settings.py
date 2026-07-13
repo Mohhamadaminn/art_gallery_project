@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # manuals
     'rest_framework',
+
+    "apps.portfolio.apps.PortfolioConfig",
+
 ]
 
 MIDDLEWARE = [
