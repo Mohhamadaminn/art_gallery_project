@@ -3,3 +3,4 @@ djangorestframework==3.15.*
 psycopg2-binary==2.9.*
 pillow==12.3.0
 django-cors-headers
+djangorestframework-simplejwt==5.5.1

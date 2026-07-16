@@ -7,7 +7,7 @@ const apiClient = axios.create({
   },
 });
 
-// Optional: Add request interceptor for debugging
+
 apiClient.interceptors.request.use((config) => {
   console.log(`[API Request] ${config.method.toUpperCase()} ${config.url}`);
   return config;
