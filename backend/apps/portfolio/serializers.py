@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Artist, ArtistWork, Course
+from .models import Artist, ArtistWork, Course, CourseRegistration
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -25,4 +25,12 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['id', 'title', 'description', 'image', 'price', 'start_date', 'capacity', 'seats_left']
+
+
+
+class CourseRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseRegistration
+        fields = '__all__'
+        read_only_fields = ['user', 'registered_at', 'is_paid', 'payment_reference']
 
