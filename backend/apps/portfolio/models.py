@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.conf import settings
 from django.db import models
 
@@ -31,9 +32,10 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='courses/')
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2,
+                                 validators=[MinValueValidator(0)])
     start_date = models.DateTimeField(null=True, blank=True)
-    capacity = models.PositiveIntegerField()
+    capacity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
     def __str__(self):
         return self.title
@@ -48,8 +50,9 @@ class Meeting(models.Model):
     description = models.TextField(blank=True)
     date_time = models.DateTimeField()
     location = models.CharField(max_length=255, blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    capacity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=8, decimal_places=2,
+                                validators=[MinValueValidator(0)])
+    capacity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
     def __str__(self):
         return self.title
@@ -85,3 +88,4 @@ class MeetingRegistration(models.Model):
 
     def __str__(self):
         return f'{self.user} -> {self.meeting}'
+    
