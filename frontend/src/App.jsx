@@ -1,17 +1,7 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import ArtistsPage from "./pages/ArtistsPage";
+import AppRouter from "./router";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Artists</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<ArtistsPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <AppRouter />;
 }
 
 export default App;
