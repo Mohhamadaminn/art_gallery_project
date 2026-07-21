@@ -54,6 +54,14 @@ function ArtistsPage() {
               key={artist.id}
               className="bg-zinc-900 border border-zinc-800 hover:border-violet-500 rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 group"
             >
+              {artist.profile_picture && (
+                <img
+                  src={artist.profile_picture}
+                  alt={artist.name}
+                  className="w-full h-64 object-cover rounded-2xl mb-6"
+                />
+              )}
+
               <h3 className="text-3xl font-semibold mb-4 group-hover:text-violet-400 transition-colors">
                 {artist.name}
               </h3>
@@ -64,9 +72,9 @@ function ArtistsPage() {
                 </p>
               )}
 
-              {artist.country && (
+              {artist.location && (
                 <p className="flex items-center gap-2 text-sm text-zinc-500">
-                  📍 {artist.country}
+                  📍 {artist.location}
                 </p>
               )}
             </div>
