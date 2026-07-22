@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import apiClient from "../api/client";
 
 function CoursesPage() {
@@ -24,54 +25,53 @@ function CoursesPage() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="bg-zinc-900 rounded-3xl h-80 animate-pulse" />
+          <div key={i} className="aspect-[4/5] bg-[#EFEDE8] animate-pulse" />
         ))}
       </div>
     );
   }
 
   if (error) {
-    return <div className="text-red-500 text-center py-20 text-xl">{error}</div>;
+    return (
+      <div className="text-center py-20 text-sm tracking-wide text-[#B85C4A]">
+        {error}
+      </div>
+    );
+  }
+
+  if (courses.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <p className="text-lg text-[#8C8C8C]">No courses yet</p>
+        <p className="text-sm text-[#B0AEA8] mt-2">
+          Create some in your Django admin
+        </p>
+      </div>
+    );
   }
 
   return (
-    <>
-      <h1 className="text-5xl font-bold tracking-tight mb-12 text-center">
-        Courses
-      </h1>
-
-      {courses.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-2xl text-zinc-400">No courses yet</p>
-          <p className="text-zinc-500 mt-3">Create some in your Django admin</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => (
-            <div
-              key={course.id}
-              className="bg-zinc-900 border border-zinc-800 hover:border-violet-500 rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 group"
-            >
-              <h3 className="text-3xl font-semibold mb-4 group-hover:text-violet-400 transition-colors">
-                {course.title}
-              </h3>
-
-              {course.description && (
-                <p className="text-zinc-400 leading-relaxed mb-6 line-clamp-4">
-                  {course.description}
-                </p>
-              )}
-
-              {course.instructor && (
-                <p className="text-sm text-zinc-500">by {course.instructor}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
+      {courses.map((course) => (
+        <Link key={course.id} to={`/courses/${course.id}`} className="group">
+          <div className="aspect-[4/5] bg-[#EFEDE8] overflow-hidden">
+            {course.image ? (
+              <img
+                src={course.image}
+                alt={course.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : null}
+          </div>
+          <p className="mt-4 text-center text-xs tracking-[0.1em] uppercase text-[#6B6B6B] group-hover:text-[#C97B63] transition-colors">
+            {course.title}
+            {course.price != null ? ` — $${course.price}` : ""}
+          </p>
+        </Link>
+      ))}
+    </div>
   );
 }
 

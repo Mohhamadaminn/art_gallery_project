@@ -2,51 +2,60 @@ import { Outlet, NavLink } from "react-router-dom";
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      {/* Navigation */}
-      <nav className="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-8 py-5 flex items-center justify-between">
-          <div className="text-2xl font-bold tracking-tight text-white">
-            Art Gallery
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
+      <nav className="border-b border-[#EAE8E3]">
+        <div className="max-w-6xl mx-auto px-10 py-8 flex items-center justify-between">
+          <div
+            className="text-xl font-bold tracking-tight"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Sahar Alizadeh
           </div>
 
-          <div className="flex gap-8 text-lg">
+          <div className="flex gap-10 text-xs tracking-[0.15em] uppercase">
             <NavLink
               to="/"
+              end
               className={({ isActive }) =>
                 isActive
-                  ? "text-white font-medium"
-                  : "text-zinc-400 hover:text-white transition-colors"
+                  ? "text-[#C97B63]"
+                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               }
             >
-              Artists
+              Work
             </NavLink>
             <NavLink
-              to="/works"
+              to="/bio"
               className={({ isActive }) =>
                 isActive
-                  ? "text-white font-medium"
-                  : "text-zinc-400 hover:text-white transition-colors"
+                  ? "text-[#C97B63]"
+                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               }
             >
-              Works
+              Bio / CV
             </NavLink>
             <NavLink
               to="/courses"
               className={({ isActive }) =>
                 isActive
-                  ? "text-white font-medium"
-                  : "text-zinc-400 hover:text-white transition-colors"
+                  ? "text-[#C97B63]"
+                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               }
             >
               Courses
             </NavLink>
+            {/* Placeholders — not routed yet */}
+            <span className="text-[#D6D3CC] cursor-default select-none">
+              Contact
+            </span>
+            <span className="text-[#D6D3CC] cursor-default select-none">
+              News
+            </span>
           </div>
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-8 py-10">
+      <main className="max-w-6xl mx-auto px-10 py-16">
         <Outlet />
       </main>
     </div>
