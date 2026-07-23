@@ -48,9 +48,9 @@ function ArtistProfilePage() {
         >
           {artist.name}
         </h1>
-        {artist.country && (
+        {artist.location && (
           <p className="text-xs tracking-[0.1em] uppercase text-[#8C8C8C] mb-8">
-            {artist.country}
+            {artist.location}
           </p>
         )}
         {artist.bio && (

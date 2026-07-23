@@ -10,9 +10,7 @@ class Artist(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=30, blank=True)
     location = models.CharField(max_length=200, blank=True)
-    website = models.URLField(blank=True)
     instagram = models.URLField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
