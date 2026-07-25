@@ -24,7 +24,7 @@ export default function Layout() {
                   : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               }
             >
-              Work
+              Works
             </NavLink>
             <NavLink
               to="/bio"
