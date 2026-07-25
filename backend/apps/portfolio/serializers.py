@@ -74,3 +74,7 @@ class MeetingRegistrationSerializer(serializers.ModelSerializer):
         if meeting.date_time < timezone.now():
             raise serializers.ValidationError("This meeting has already taken place.")
         return meeting
+
+
+
+
