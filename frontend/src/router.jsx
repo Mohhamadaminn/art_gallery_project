@@ -5,6 +5,8 @@ import WorkDetailPage from "./pages/WorkDetailPage";
 import CoursesPage from "./pages/CoursesPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import ArtistProfilePage from "./pages/ArtistProfilePage";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,8 @@ const router = createBrowserRouter([
       { path: "courses", element: <CoursesPage /> },
       { path: "courses/:id", element: <CourseDetailPage /> },
       { path: "bio", element: <ArtistProfilePage /> },
+      { path: "signup", element: <Signup /> },
+      { path: "login", element: <Login /> },
     ],
   },
 ]);

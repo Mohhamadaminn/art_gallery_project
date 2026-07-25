@@ -1,6 +1,8 @@
 import { Outlet, NavLink } from "react-router-dom";
-
+import { useAuth } from "../../context/AuthContext";
 export default function Layout() {
+  const { user, logout } = useAuth();
+
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <nav className="border-b border-[#EAE8E3]">
@@ -12,7 +14,7 @@ export default function Layout() {
             Sahar Alizadeh
           </div>
 
-          <div className="flex gap-10 text-xs tracking-[0.15em] uppercase">
+          <div className="flex gap-10 text-xs tracking-[0.15em] uppercase items-center">
             <NavLink
               to="/"
               end
@@ -51,6 +53,38 @@ export default function Layout() {
             <span className="text-[#D6D3CC] cursor-default select-none">
               News
             </span>
+
+            {user ? (
+              <button
+                onClick={logout}
+                className="text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+              >
+                Log out
+              </button>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#C97B63]"
+                      : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+                  }
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#C97B63]"
+                      : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+                  }
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </nav>
