@@ -47,12 +47,6 @@ export default function Layout() {
               Courses
             </NavLink>
             {/* Placeholders — not routed yet */}
-            <span className="text-[#D6D3CC] cursor-default select-none">
-              Contact
-            </span>
-            <span className="text-[#D6D3CC] cursor-default select-none">
-              News
-            </span>
 
             {user ? (
               <button
