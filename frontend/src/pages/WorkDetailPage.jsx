@@ -34,7 +34,7 @@ function WorkDetailPage() {
   return (
     <div>
       <Link
-        to="/works"
+        to="/"
         className="text-xs tracking-[0.1em] uppercase text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
       >
         ← Back to Work
