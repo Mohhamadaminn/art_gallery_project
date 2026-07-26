@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     "apps.account.apps.AccountConfig",
     "apps.portfolio.apps.PortfolioConfig",
+    "apps.orders.apps.OrdersConfig",
 
 ]
 
