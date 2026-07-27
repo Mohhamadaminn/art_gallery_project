@@ -46,12 +46,22 @@ export default function Layout() {
             >
               Courses
             </NavLink>
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#C97B63]"
+                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+              }
+            >
+              Cart
+            </NavLink>
             {/* Placeholders — not routed yet */}
 
             {user ? (
               <button
                 onClick={logout}
-                className="text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+                className="text-xs tracking-[0.15em] uppercase text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               >
                 Log out
               </button>

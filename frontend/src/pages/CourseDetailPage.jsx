@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import apiClient from "../api/client";
+import AddToCartButton from "../components/AddToCartButton";
 
 function CourseDetailPage() {
   const { id } = useParams();
@@ -69,8 +70,12 @@ function CourseDetailPage() {
             </p>
           )}
           {course.description && (
-            <p className="text-[#4A4A4A] leading-relaxed">{course.description}</p>
+            <p className="text-[#4A4A4A] leading-relaxed mb-8">
+              {course.description}
+            </p>
           )}
+
+          <AddToCartButton itemType="course" objectId={course.id} />
         </div>
       </div>
     </div>

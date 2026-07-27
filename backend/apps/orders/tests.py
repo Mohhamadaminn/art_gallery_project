@@ -5,7 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from portfolio.models import Course, CourseRegistration
+from apps.portfolio.models import Course, CourseRegistration
 from orders.models import Cart, Order
 
 User = get_user_model()

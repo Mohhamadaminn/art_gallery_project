@@ -7,9 +7,14 @@ const apiClient = axios.create({
   },
 });
 
-
 apiClient.interceptors.request.use((config) => {
   console.log(`[API Request] ${config.method.toUpperCase()} ${config.url}`);
+
+  const token = localStorage.getItem("access");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
   return config;
 });
 

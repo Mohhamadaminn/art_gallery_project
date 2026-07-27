@@ -7,6 +7,9 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 import ArtistProfilePage from "./pages/ArtistProfilePage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +23,9 @@ const router = createBrowserRouter([
       { path: "bio", element: <ArtistProfilePage /> },
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
+      { path: "cart", element: <CartPage /> },
+      { path: "checkout", element: <CheckoutPage /> },
+      { path: "orders", element: <OrderHistoryPage /> },
     ],
   },
 ]);
