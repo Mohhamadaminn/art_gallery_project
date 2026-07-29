@@ -73,6 +73,7 @@ class CheckoutView(APIView):
 
         cart = _get_cart(request.user)
         cart_items = list(cart.items.select_related("content_type"))
+        
         if not cart_items:
             return Response(
                 {"detail": "Cart is empty."}, status=status.HTTP_400_BAD_REQUEST
@@ -95,12 +96,12 @@ class CheckoutView(APIView):
             # Turn the cart item into a real, paid registration
             model_name = cart_item.content_type.model
             if model_name == "course":
-                CourseRegistration.objects.get_or_create(
+                CourseRegistration.objects.update_or_create(
                     user=request.user, course=cart_item.item,
                     defaults={"is_paid": True},
                 )
             elif model_name == "meeting":
-                MeetingRegistration.objects.get_or_create(
+                MeetingRegistration.objects.update_or_create(
                     user=request.user, meeting=cart_item.item,
                     defaults={"is_paid": True},
                 )
@@ -111,7 +112,6 @@ class CheckoutView(APIView):
         cart.items.all().delete()
 
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
-
 
 class OrderHistoryView(APIView):
     permission_classes = [permissions.IsAuthenticated]

@@ -1,7 +1,10 @@
 import { Outlet, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
+
 export default function Layout() {
   const { user, logout } = useAuth();
+  const { cart } = useCart();
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
@@ -54,7 +57,7 @@ export default function Layout() {
                   : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               }
             >
-              Cart
+              Cart{user && cart.items.length > 0 ? ` (${cart.items.length})` : ""}
             </NavLink>
             {/* Placeholders — not routed yet */}
 

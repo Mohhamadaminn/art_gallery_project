@@ -69,7 +69,22 @@ class CourseViewSet(viewsets.ModelViewSet):
             {"detail": "Registered successfully.", "registration_id": registration.id},
             status=201
         )
-    
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def cancel_registration(self, request, pk=None):
+        course = self.get_object()
+        try:
+            registration = CourseRegistration.objects.get(
+                user=request.user, course=course, is_paid=True
+            )
+        except CourseRegistration.DoesNotExist:
+            return Response({"detail": "You are not registered for this course."}, status=400)
+
+        if course.start_date and course.start_date < timezone.now():
+            return Response({"detail": "Cannot cancel — course already started."}, status=400)
+
+        registration.delete()
+        return Response({"detail": "Registration cancelled."}, status=200)
+        
 
 class MeetingViewSet(viewsets.ModelViewSet):
     queryset = Meeting.objects.all()

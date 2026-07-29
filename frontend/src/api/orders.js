@@ -17,3 +17,10 @@ export const checkout = (paymentMethod) =>
 
 export const getOrderHistory = () =>
   apiClient.get("/orders/").then((res) => res.data);
+
+export const cancelRegistration = (courseId) =>
+  apiClient.post(`/courses/${courseId}/cancel_registration/`).then((r) => r.data);
+
+
+export const getOrder = (orderId) =>
+  apiClient.get(`/orders/${orderId}/`).then((res) => res.data);
