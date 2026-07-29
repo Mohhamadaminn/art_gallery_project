@@ -6,6 +6,7 @@ export default function AddToCartButton({ itemType, objectId }) {
   const { cart, addToCart } = useCart();
   const [busy, setBusy] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const alreadyInCart = cart.items.some(
     (item) => item.item_type === itemType && item.object_id === objectId
@@ -14,8 +15,11 @@ export default function AddToCartButton({ itemType, objectId }) {
   const handleClick = async () => {
     setBusy(true);
     setErrorMsg("");
+    setSuccessMsg("");
     try {
       await addToCart(itemType, objectId);
+      setSuccessMsg("Added to cart");
+      setTimeout(() => setSuccessMsg(""), 3000);
     } catch (err) {
       setErrorMsg(err.response?.data?.detail || "Could not add to cart");
     } finally {
@@ -37,6 +41,9 @@ export default function AddToCartButton({ itemType, objectId }) {
       </button>
       {errorMsg && (
         <p className="mt-2 text-xs tracking-[0.05em] text-[#B85C4A]">{errorMsg}</p>
+      )}
+      {successMsg && (
+        <p className="mt-2 text-xs tracking-[0.05em] text-[#4A7A5C]">{successMsg}</p>
       )}
     </div>
   );
