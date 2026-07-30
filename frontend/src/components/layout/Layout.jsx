@@ -27,7 +27,17 @@ export default function Layout() {
                   : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
               }
             >
-              Works
+              Home
+            </NavLink>
+            <NavLink
+              to="/works"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#C97B63]"
+                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+              }
+              >
+              Gallery
             </NavLink>
             <NavLink
               to="/bio"
