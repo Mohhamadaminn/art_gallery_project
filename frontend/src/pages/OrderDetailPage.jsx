@@ -57,10 +57,10 @@ export default function OrderDetailPage() {
       </div>
 
       <Link
-        to="/courses"
+        to="/"
         className="text-xs uppercase tracking-[0.1em] text-[#8C8C8C] hover:text-[#1A1A1A]"
       >
-        ← Back to Courses
+        ← Back to Home
       </Link>
     </div>
   );

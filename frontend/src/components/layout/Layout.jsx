@@ -1,114 +1,124 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
+
+const navigation = [
+  {
+    label: "Home",
+    to: "/",
+    end: true,
+  },
+  {
+    label: "Works",
+    to: "/works",
+  },
+  {
+    label: "Events",
+    to: "/events",
+  },
+  {
+    label: "Bio",
+    to: "/bio",
+  },
+];
+
+const navClass = ({ isActive }) =>
+  isActive
+    ? "text-[#C97B63]"
+    : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors";
 
 export default function Layout() {
   const { user, logout } = useAuth();
   const { cart } = useCart();
 
+  const cartCount = cart?.items?.length ?? 0;
+
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
-      <nav className="border-b border-[#EAE8E3]">
+
+      <header className="border-b border-[#EAE8E3] sticky top-0 bg-[#FAFAF8]/90 backdrop-blur z-50">
+
         <div className="max-w-6xl mx-auto px-10 py-8 flex items-center justify-between">
-          <div
+
+          <NavLink
+            to="/"
             className="text-xl font-bold tracking-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Sahar Alizadeh
-          </div>
+          </NavLink>
 
-          <div className="flex gap-10 text-xs tracking-[0.15em] uppercase items-center">
-            <NavLink
-              to="/"
-              end
-              className={({ isActive }) =>
-                isActive
-                  ? "text-[#C97B63]"
-                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/works"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-[#C97B63]"
-                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-              }
+          <nav className="flex items-center gap-10 text-xs uppercase tracking-[0.15em]">
+
+            {navigation.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={navClass}
               >
-              Gallery
-            </NavLink>
-            <NavLink
-              to="/bio"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-[#C97B63]"
-                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-              }
-            >
-              Bio / CV
-            </NavLink>
-            <NavLink
-              to="/courses"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-[#C97B63]"
-                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-              }
-            >
-              Courses
-            </NavLink>
+                {item.label}
+              </NavLink>
+            ))}
+
             <NavLink
               to="/cart"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-[#C97B63]"
-                  : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-              }
+              className={navClass}
             >
-              Cart{user && cart.items.length > 0 ? ` (${cart.items.length})` : ""}
+              Cart
+              {user && cartCount > 0 && (
+                <span className="ml-1 text-[#C97B63]">
+                  ({cartCount})
+                </span>
+              )}
             </NavLink>
-            {/* Placeholders — not routed yet */}
 
             {user ? (
-              <button
-                onClick={logout}
-                className="text-xs tracking-[0.15em] uppercase text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-              >
-                Log out
-              </button>
+              <>
+                <NavLink
+                  to="/orders"
+                  className={navClass}
+                >
+                  Orders
+                </NavLink>
+
+                <button
+                  onClick={logout}
+                  className="text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <>
                 <NavLink
                   to="/login"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-[#C97B63]"
-                      : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-                  }
+                  className={navClass}
                 >
                   Login
                 </NavLink>
+
                 <NavLink
                   to="/signup"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-[#C97B63]"
-                      : "text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-                  }
+                  className={navClass}
                 >
                   Sign Up
                 </NavLink>
               </>
             )}
-          </div>
+
+          </nav>
+
         </div>
-      </nav>
+
+      </header>
 
       <main className="max-w-6xl mx-auto px-10 py-16">
+
         <Outlet />
+
       </main>
+
     </div>
   );
 }

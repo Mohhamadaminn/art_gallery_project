@@ -56,10 +56,10 @@ export default function HeroSection({ artist, loading }) {
           </Link>
 
           <Link
-            to="/courses"
+            to="/events"
             className="px-7 py-3 border border-[#1A1A1A] uppercase tracking-[0.15em] text-xs hover:bg-[#1A1A1A] hover:text-white transition"
           >
-            Courses
+            Upcoming Events
           </Link>
         </div>
       </div>

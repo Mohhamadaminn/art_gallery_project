@@ -11,8 +11,8 @@ export default function CartPage() {
     return (
       <div className="text-center py-20">
         <p className="text-lg text-[#8C8C8C]">Your cart is empty</p>
-        <Link to="/courses" className="text-xs uppercase text-[#C97B63] mt-2 inline-block">
-          Browse courses
+        <Link to="/events" className="text-xs uppercase text-[#C97B63] mt-2 inline-block">
+          Browse courses & meetings
         </Link>
       </div>
     );

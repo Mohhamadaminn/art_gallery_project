@@ -55,10 +55,10 @@ function CourseDetailPage() {
   return (
     <div>
       <Link
-        to="/courses"
+        to="/events"
         className="text-xs tracking-[0.1em] uppercase text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
       >
-        ← Back to Courses
+        ← Back to Events
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-14 mt-10">

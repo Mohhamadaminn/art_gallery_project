@@ -24,3 +24,9 @@ export const cancelRegistration = (courseId) =>
 
 export const getOrder = (orderId) =>
   apiClient.get(`/orders/${orderId}/`).then((res) => res.data);
+
+
+export const cancelMeetingRegistration = (meetingId) =>
+  apiClient
+    .post(`/meetings/${meetingId}/cancel_registration/`)
+    .then((res) => res.data);

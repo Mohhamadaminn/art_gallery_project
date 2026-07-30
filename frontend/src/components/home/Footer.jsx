@@ -1,81 +1,75 @@
+import { Link } from "react-router-dom";
 
-export default function Footer({ artist }) {
+const navigation = [
+  {
+    label: "Home",
+    to: "/",
+  },
+  {
+    label: "Works",
+    to: "/works",
+  },
+  {
+    label: "Events",
+    to: "/events",
+  },
+  {
+    label: "Bio",
+    to: "/bio",
+  },
+];
 
-  if (!artist) return null;
-
-  const currentYear = new Date().getFullYear();
-
+export default function Footer() {
   return (
-    <footer className="border-t border-[#EAE8E3] pt-14 pb-8">
-      <div className="grid md:grid-cols-2 gap-10">
+    <footer className="mt-32 border-t border-[#EAE8E3]">
+      <div className="max-w-6xl mx-auto px-10 py-14">
 
-        <div>
-          <h3
-            className="text-2xl mb-3"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            {artist.name}
-          </h3>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
 
-          <p className="text-[#6B6B6B] leading-7 max-w-md">
-            {artist.bio?.length > 160
-              ? artist.bio.substring(0, 160) + "..."
-              : artist.bio}
+          <div>
+
+            <h2
+              className="text-2xl mb-3"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Sahar Alizadeh
+            </h2>
+
+            <p className="text-sm text-[#7B7B7B] max-w-sm leading-7">
+              Contemporary artist creating original paintings,
+              educational courses and artistic events.
+            </p>
+
+          </div>
+
+          <nav className="flex flex-wrap gap-8 uppercase tracking-[0.15em] text-xs">
+
+            {navigation.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="text-[#8C8C8C] hover:text-[#C97B63] transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+          </nav>
+
+        </div>
+
+        <div className="mt-12 pt-6 border-t border-[#F0EEE9] flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-[#9A9A9A]">
+
+          <p>
+            © {new Date().getFullYear()} Sahar Alizadeh.
+            All rights reserved.
           </p>
+
+          <p>
+            Designed & Developed with React & Django
+          </p>
+
         </div>
-
-        <div className="md:text-right space-y-2 text-sm text-[#6B6B6B]">
-          {artist.location && (
-            <p>{artist.location}</p>
-          )}
-
-          {artist.email && (
-            <p>
-              <a
-                href={`mailto:${artist.email}`}
-                className="hover:text-[#C97B63] transition-colors"
-              >
-                {artist.email}
-              </a>
-            </p>
-          )}
-
-          {artist.phone && (
-            <p>
-              <a
-                href={`tel:${artist.phone}`}
-                className="hover:text-[#C97B63] transition-colors"
-              >
-                {artist.phone}
-              </a>
-            </p>
-          )}
-
-          {artist.instagram && (
-            <p>
-              <a
-                href={`https://instagram.com/${artist.instagram.replace("@", "")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-[#C97B63] transition-colors"
-              >
-                @{artist.instagram.replace("@", "")}
-              </a>
-            </p>
-          )}
-        </div>
-
-      </div>
-
-      <div className="mt-14 pt-6 border-t border-[#EAE8E3] flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.12em] uppercase text-[#9A9A9A]">
-
-        <p>
-          © {currentYear} {artist.name}
-        </p>
-
-        <p className="mt-4 md:mt-0">
-          Built with Django REST Framework & React
-        </p>
 
       </div>
     </footer>

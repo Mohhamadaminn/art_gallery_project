@@ -46,6 +46,7 @@ class Course(models.Model):
 class Meeting(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='meetings/')
     date_time = models.DateTimeField()
     location = models.CharField(max_length=255, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2,

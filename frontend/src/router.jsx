@@ -1,15 +1,24 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import Layout from "./components/layout/Layout";
+
 import HomePage from "./pages/HomePage";
+
 import WorksPage from "./pages/WorksPage";
 import WorkDetailPage from "./pages/WorkDetailPage";
-import CoursesPage from "./pages/CoursesPage";
+
+import EventsPage from "./pages/EventsPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
+import MeetingDetailPage from "./pages/MeetingDetailPage";
+
 import ArtistProfilePage from "./pages/ArtistProfilePage";
+
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 
@@ -18,29 +27,70 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <HomePage /> },
+      {
+        index: true,
+        element: <HomePage />,
+      },
 
-      { path: "works", element: <WorksPage /> },
+      {
+        path: "works",
+        element: <WorksPage />,
+      },
 
-      { path: "works/:id", element: <WorkDetailPage /> },
+      {
+        path: "works/:id",
+        element: <WorkDetailPage />,
+      },
 
-      { path: "courses", element: <CoursesPage /> },
+      {
+        path: "events",
+        element: <EventsPage />,
+      },
 
-      { path: "courses/:id", element: <CourseDetailPage /> },
+      {
+        path: "courses/:id",
+        element: <CourseDetailPage />,
+      },
 
-      { path: "bio", element: <ArtistProfilePage /> },
+      {
+        path: "meetings/:id",
+        element: <MeetingDetailPage />,
+      },
 
-      { path: "signup", element: <Signup /> },
+      {
+        path: "bio",
+        element: <ArtistProfilePage />,
+      },
 
-      { path: "login", element: <Login /> },
+      {
+        path: "cart",
+        element: <CartPage />,
+      },
 
-      { path: "cart", element: <CartPage /> },
+      {
+        path: "checkout",
+        element: <CheckoutPage />,
+      },
 
-      { path: "checkout", element: <CheckoutPage /> },
+      {
+        path: "orders",
+        element: <OrderHistoryPage />,
+      },
 
-      { path: "orders", element: <OrderHistoryPage /> },
+      {
+        path: "orders/:id",
+        element: <OrderDetailPage />,
+      },
 
-      { path: "orders/:id", element: <OrderDetailPage /> },
+      {
+        path: "login",
+        element: <Login />,
+      },
+
+      {
+        path: "signup",
+        element: <Signup />,
+      },
     ],
   },
 ]);
