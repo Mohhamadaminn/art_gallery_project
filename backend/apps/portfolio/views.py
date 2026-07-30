@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated, BasePermission, SAFE_METHODS
 
-from .models import Artist, ArtistWork, Course, Meeting, CourseRegistration, MeetingRegistration
-from .serializers import ArtistSerializer, ArtistWorkSerializer, CourseSerializer, MeetingSerializer
+from .models import Artist, ArtistWork, Course, Meeting, CourseRegistration, MeetingRegistration, PastEvent
+from .serializers import ArtistSerializer, ArtistWorkSerializer, CourseSerializer, MeetingSerializer, PastEventSerializer
 
 
 class IsAdminOrReadOnly(BasePermission):
@@ -120,3 +120,8 @@ class MeetingViewSet(viewsets.ModelViewSet):
             {"detail": "Registered successfully.", "registration_id": registration.id},
             status=201
         )
+
+
+class PastEventViewSet(viewsets.ModelViewSet):
+    queryset = PastEvent.objects.all()
+    serializer_class = PastEventSerializer
