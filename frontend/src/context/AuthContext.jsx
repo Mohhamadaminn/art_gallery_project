@@ -13,10 +13,15 @@ export function AuthProvider({ children }) {
     setUser(true);
   };
 
-  const signup = async (username, password) => {
-    await api.post('auth/signup/', { username, password });
-    await login(username, password);
-  };
+  const signup = async (username, password, phoneNumber, age) => {
+  await api.post('auth/signup/', {
+    username,
+    password,
+    phone_number: phoneNumber,
+    ...(age ? { age: Number(age) } : {}),
+  });
+  await login(username, password);
+};
 
   const logout = () => {
     localStorage.removeItem('access');
