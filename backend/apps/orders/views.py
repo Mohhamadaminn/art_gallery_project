@@ -3,6 +3,7 @@ from django.db import transaction
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from apps.portfolio.tasks import send_registration_confirmation_email
 
 from apps.portfolio.models import Course, Meeting, CourseRegistration, MeetingRegistration
 from .models import Cart, CartItem, Order, OrderItem
@@ -59,11 +60,6 @@ class RemoveFromCartView(APIView):
 
 
 class CheckoutView(APIView):
-    """
-    No real payment gateway — this just records which mock payment method
-    the user picked, then immediately marks the order paid and turns
-    cart items into real course/meeting registrations.
-    """
     permission_classes = [permissions.IsAuthenticated]
 
     @transaction.atomic
@@ -73,7 +69,6 @@ class CheckoutView(APIView):
 
         cart = _get_cart(request.user)
         cart_items = list(cart.items.select_related("content_type"))
-        
         if not cart_items:
             return Response(
                 {"detail": "Cart is empty."}, status=status.HTTP_400_BAD_REQUEST
@@ -93,22 +88,30 @@ class CheckoutView(APIView):
                 price=cart_item.price,
             )
 
-            # Turn the cart item into a real, paid registration
             model_name = cart_item.content_type.model
             if model_name == "course":
                 CourseRegistration.objects.update_or_create(
                     user=request.user, course=cart_item.item,
                     defaults={"is_paid": True},
                 )
+                event_title = cart_item.item.title
+                event_type = "course"
             elif model_name == "meeting":
                 MeetingRegistration.objects.update_or_create(
                     user=request.user, meeting=cart_item.item,
                     defaults={"is_paid": True},
                 )
+                event_title = cart_item.item.title
+                event_type = "meeting"
+            else:
+                event_title = event_type = None
 
-        # Fake payment "processing" — always succeeds
+            if event_title and request.user.email:
+                send_registration_confirmation_email.delay(
+                    request.user.email, event_title, event_type
+                )
+
         order.mark_paid()
-
         cart.items.all().delete()
 
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)

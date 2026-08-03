@@ -72,10 +72,12 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({"detail": "You are already registered for this course."}, status=400)
 
         registration = CourseRegistration.objects.create(user=request.user, course=course)
+
         return Response(
             {"detail": "Registered successfully.", "registration_id": registration.id},
             status=201
         )
+
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def cancel_registration(self, request, pk=None):
         course = self.get_object()
@@ -126,11 +128,13 @@ class MeetingViewSet(viewsets.ModelViewSet):
             return Response({"detail": "You are already registered for this meeting."}, status=400)
 
         registration = MeetingRegistration.objects.create(user=request.user, meeting=meeting)
+
+
         return Response(
             {"detail": "Registered successfully.", "registration_id": registration.id},
             status=201
         )
-
+    
 
 class PastEventViewSet(viewsets.ModelViewSet):
     queryset = PastEvent.objects.all()
