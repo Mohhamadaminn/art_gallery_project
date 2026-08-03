@@ -1,4 +1,5 @@
 import axios from "axios";
+import { attachAuthInterceptors } from "./authInterceptor";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api",
@@ -7,15 +8,6 @@ const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.request.use((config) => {
-  console.log(`[API Request] ${config.method.toUpperCase()} ${config.url}`);
-
-  const token = localStorage.getItem("access");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+attachAuthInterceptors(apiClient);
 
 export default apiClient;
