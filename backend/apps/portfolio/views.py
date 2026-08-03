@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated, BasePermission, SAFE_METHODS
+from .filters import CourseFilter, MeetingFilter
 
 from .models import Artist, ArtistWork, Course, Meeting, CourseRegistration, MeetingRegistration, PastEvent
 from .serializers import ArtistSerializer, ArtistWorkSerializer, CourseSerializer, MeetingSerializer, PastEventSerializer
@@ -19,6 +20,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
     permission_classes = [IsAdminOrReadOnly]
+    search_fields = ['name', 'location', 'bio']
 
     @action(detail=False, methods=['get'])
     def profile(self, request):
@@ -33,12 +35,17 @@ class ArtistWorkViewSet(viewsets.ModelViewSet):
     queryset = ArtistWork.objects.all()
     serializer_class = ArtistWorkSerializer
     permission_classes = [IsAdminOrReadOnly]
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_at']
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsAdminOrReadOnly]
+    filterset_class = CourseFilter
+    search_fields = ['title', 'description']
+    ordering_fields = ['price', 'start_date']
 
     @action(detail=False, methods=['get'])
     def upcoming(self, request):
@@ -90,6 +97,9 @@ class MeetingViewSet(viewsets.ModelViewSet):
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
     permission_classes = [IsAdminOrReadOnly]
+    filterset_class = MeetingFilter
+    search_fields = ['title', 'description', 'location']
+    ordering_fields = ['price', 'date_time']
 
     @action(detail=False, methods=['get'])
     def upcoming(self, request):

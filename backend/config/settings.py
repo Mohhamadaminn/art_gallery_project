@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # manuals
     "rest_framework",
     "corsheaders",
-    'rest_framework_simplejwt.token_blacklist',
+    "rest_framework_simplejwt.token_blacklist",
+    "django_filters",
 
     "apps.account.apps.AccountConfig",
     "apps.portfolio.apps.PortfolioConfig",
@@ -121,6 +122,11 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 6,
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ),
 }
 
 
