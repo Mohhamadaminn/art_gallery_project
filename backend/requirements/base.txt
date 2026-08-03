@@ -5,3 +5,5 @@ pillow==12.3.0
 django-cors-headers
 djangorestframework-simplejwt==5.5.1
 django-filter==24.3
+celery==5.4.0
+redis==5.0.8
