@@ -84,8 +84,7 @@ export default function Layout() {
 
                 <button
                   onClick={logout}
-                  className="text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
-                >
+                  className="text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors bg-transparent border-none p-0 cursor-pointer font-inherit text-xs uppercase tracking-[0.15em]"                >
                   Logout
                 </button>
               </>

@@ -13,13 +13,18 @@ def send_registration_confirmation_email(user_email, event_title, event_type):
         f"You're confirmed for the {event_type} \"{event_title}\".\n\n"
         f"Thanks for registering!"
     )
-    send_mail(
-        subject,
-        message,
-        settings.DEFAULT_FROM_EMAIL,
-        [user_email],
-        fail_silently=False,
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=False)
+
+
+@shared_task
+def send_event_reminder_email(user_email, event_title, event_type):
+    subject = f"Reminder: {event_title} is coming up"
+    message = (
+        f"Just a reminder that the {event_type} \"{event_title}\" "
+        f"is happening in the next 24 hours.\n\n"
+        f"See you there!"
     )
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=False)
 
 
 @shared_task
@@ -36,8 +41,8 @@ def send_upcoming_event_reminders():
 
     for reg in course_regs:
         if reg.user.email:
-            send_registration_confirmation_email.delay(
-                reg.user.email, reg.course.title, "course reminder"
+            send_event_reminder_email.delay(
+                reg.user.email, reg.course.title, "course"
             )
         reg.reminder_sent = True
         reg.save(update_fields=["reminder_sent"])
@@ -51,8 +56,8 @@ def send_upcoming_event_reminders():
 
     for reg in meeting_regs:
         if reg.user.email:
-            send_registration_confirmation_email.delay(
-                reg.user.email, reg.meeting.title, "meeting reminder"
+            send_event_reminder_email.delay(
+                reg.user.email, reg.meeting.title, "meeting"
             )
         reg.reminder_sent = True
         reg.save(update_fields=["reminder_sent"])

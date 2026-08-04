@@ -138,6 +138,16 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "UTC" 
 
 
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    "send-upcoming-event-reminders": {
+        "task": "apps.portfolio.tasks.send_upcoming_event_reminders",
+        "schedule": crontab(minute=0),  # runs at the top of every hour
+    },
+}
+
+
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@artistshowcase.local"

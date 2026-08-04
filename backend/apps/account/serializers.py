@@ -10,8 +10,10 @@ from rest_framework.validators import UniqueValidator
 
 class SignupSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=User.objects.all(), message="This email is already registered.")]
+        required=False,
+        allow_blank=True,
+        validators=[UniqueValidator(queryset=User.objects.exclude(email=''),
+                         message="This email is already registered.")]
     )
     phone_number = serializers.CharField(write_only=True, max_length=20)
     age = serializers.IntegerField(write_only=True, required=False, allow_null=True)
