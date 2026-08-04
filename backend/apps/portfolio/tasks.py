@@ -1,6 +1,9 @@
 from celery import shared_task
 from django.core.mail import send_mail
+from datetime import timedelta
+from django.utils import timezone
 from django.conf import settings
+from .models import CourseRegistration, MeetingRegistration
 
 
 @shared_task
@@ -17,3 +20,39 @@ def send_registration_confirmation_email(user_email, event_title, event_type):
         [user_email],
         fail_silently=False,
     )
+
+
+@shared_task
+def send_upcoming_event_reminders():
+    now = timezone.now()
+    window_end = now + timedelta(hours=24)
+
+    course_regs = CourseRegistration.objects.filter(
+        is_paid=True,
+        reminder_sent=False,
+        course__start_date__gte=now,
+        course__start_date__lte=window_end,
+    ).select_related("user", "course")
+
+    for reg in course_regs:
+        if reg.user.email:
+            send_registration_confirmation_email.delay(
+                reg.user.email, reg.course.title, "course reminder"
+            )
+        reg.reminder_sent = True
+        reg.save(update_fields=["reminder_sent"])
+
+    meeting_regs = MeetingRegistration.objects.filter(
+        is_paid=True,
+        reminder_sent=False,
+        meeting__date_time__gte=now,
+        meeting__date_time__lte=window_end,
+    ).select_related("user", "meeting")
+
+    for reg in meeting_regs:
+        if reg.user.email:
+            send_registration_confirmation_email.delay(
+                reg.user.email, reg.meeting.title, "meeting reminder"
+            )
+        reg.reminder_sent = True
+        reg.save(update_fields=["reminder_sent"])
