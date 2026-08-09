@@ -35,6 +35,15 @@ class AddToCartView(APIView):
         object_id = serializer.validated_data["object_id"]
 
         model = Course if item_type == "course" else Meeting
+        obj = model.objects.get(pk=object_id)  # AddToCartSerializer.validate already confirmed it exists
+
+        already_registered = obj.registrations.filter(user=request.user, is_paid=True).exists()
+        if already_registered:
+            return Response(
+                {"detail": f"You're already registered for this {item_type}."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         content_type = ContentType.objects.get_for_model(model)
         cart = _get_cart(request.user)
 
@@ -42,9 +51,7 @@ class AddToCartView(APIView):
             cart=cart, content_type=content_type, object_id=object_id
         )
         if not created:
-            return Response(
-                {"detail": "Already in cart."}, status=status.HTTP_200_OK
-            )
+            return Response({"detail": "Already in cart."}, status=status.HTTP_200_OK)
         return Response(CartSerializer(cart).data, status=status.HTTP_201_CREATED)
 
 
@@ -72,6 +79,27 @@ class CheckoutView(APIView):
         if not cart_items:
             return Response(
                 {"detail": "Cart is empty."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Reject the whole checkout if anything in the cart is something
+        # the user is already paid-registered for, instead of silently
+        # creating a redundant Order/OrderItem for it.
+        conflicts = []
+        for cart_item in cart_items:
+            model_name = cart_item.content_type.model
+            if model_name not in ("course", "meeting"):
+                continue
+            reg_related_name = "registrations"
+            already_registered = getattr(cart_item.item, reg_related_name).filter(
+                user=request.user, is_paid=True
+            ).exists()
+            if already_registered:
+                conflicts.append(cart_item.item.title)
+
+        if conflicts:
+            return Response(
+                {"detail": f"Already registered for: {', '.join(conflicts)}. Remove from cart to continue."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         order = Order.objects.create(
