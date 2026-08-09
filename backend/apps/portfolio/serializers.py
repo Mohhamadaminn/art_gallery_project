@@ -4,13 +4,20 @@ from django.utils import timezone
 from .models import Artist, ArtistWork, Course, Meeting, CourseRegistration, MeetingRegistration, PastEvent
 
 class MeetingSerializer(serializers.ModelSerializer):
-
     seats_left = serializers.ReadOnlyField()
+    is_registered = serializers.SerializerMethodField()
 
     class Meta:
         model = Meeting
-        fields = ['id', 'title', 'description', 'date_time', 'location', 'price', 'capacity', 'seats_left']
+        fields = ['id', 'title', 'description', 'date_time', 'location',
+                  'price', 'capacity', 'seats_left', 'is_registered']
 
+    def get_is_registered(self, obj):
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            return False
+        return obj.registrations.filter(user=request.user, is_paid=True).exists()
+    
 class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
