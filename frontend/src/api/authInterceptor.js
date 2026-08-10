@@ -7,7 +7,6 @@ const REFRESH_URL =
 let refreshPromise = null;
 
 function refreshAccessToken() {
-  // If a refresh is already in flight, reuse it instead of firing another
   if (!refreshPromise) {
     const refresh = localStorage.getItem("refresh");
     refreshPromise = axios
@@ -44,7 +43,8 @@ export function attachAuthInterceptors(instance) {
         } catch {
           localStorage.removeItem("access");
           localStorage.removeItem("refresh");
-          window.location.href = "/login";
+          const currentPath = window.location.pathname + window.location.search;
+          window.location.href = `/login?next=${encodeURIComponent(currentPath)}`;
         }
       }
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, useSearchParams, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Container from "../components/layout/Container";
 
@@ -9,13 +9,15 @@ export default function Login() {
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
       await login(username, password);
-      navigate("/");
+      const next = searchParams.get("next");
+      navigate(next || "/");
     } catch (err) {
       setError("Invalid username or password.");
     }
