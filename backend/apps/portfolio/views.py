@@ -102,7 +102,7 @@ class MeetingViewSet(viewsets.ModelViewSet):
     filterset_class = MeetingFilter
     search_fields = ['title', 'description', 'location']
     ordering_fields = ['price', 'date_time']
-
+    
     @action(detail=False, methods=['get'])
     def upcoming(self, request):
         meetings = Meeting.objects.filter(date_time__gte=timezone.now()).order_by('date_time')

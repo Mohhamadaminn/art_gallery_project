@@ -1,76 +1,81 @@
 import { Link } from "react-router-dom";
-
-const navigation = [
-  {
-    label: "Home",
-    to: "/",
-  },
-  {
-    label: "Works",
-    to: "/works",
-  },
-  {
-    label: "Events",
-    to: "/events",
-  },
-  {
-    label: "Bio",
-    to: "/bio",
-  },
-];
+import { useEffect, useState } from "react";
+import apiClient from "../../api/client";
 
 export default function Footer() {
+  const [artist, setArtist] = useState(null);
+
+  useEffect(() => {
+    apiClient
+      .get("/artists/profile/")
+      .then((res) => setArtist(res.data))
+      .catch(console.error);
+  }, []);
+
   return (
-    <footer className="mt-32 border-t border-[#EAE8E3]">
-      <div className="max-w-6xl mx-auto px-10 py-14">
-
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
-
+    <footer className="mt-32 border-t border-gallery-line">
+      <div className="mx-auto max-w-6xl px-10 py-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+          {/* Brand */}
           <div>
-
-            <h2
-              className="text-2xl mb-3"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            <h2 className="font-heading mb-5 text-2xl font-extrabold tracking-tight text-gallery-ink">
               Sahar Alizadeh
             </h2>
-
-            <p className="text-sm text-[#7B7B7B] max-w-sm leading-7">
-              Contemporary artist creating original paintings,
-              educational courses and artistic events.
+            <p className="max-w-sm text-sm leading-7 text-gallery-inkSoft">
+              Contemporary artist creating original artworks and artistic experiences.
             </p>
-
           </div>
 
-          <nav className="flex flex-wrap gap-8 uppercase tracking-[0.15em] text-xs">
-
-            {navigation.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="text-[#8C8C8C] hover:text-[#C97B63] transition-colors"
-              >
-                {item.label}
+          {/* Explore */}
+          <div>
+            <h3 className="mb-6 text-xs uppercase tracking-[0.2em] text-gallery-inkSoft">
+              Explore
+            </h3>
+            <div className="flex flex-col gap-4 text-sm text-gallery-ink">
+              <Link to="/" className="transition-colors duration-250 hover:text-gallery-accentDark">
+                Home
               </Link>
-            ))}
+              <Link to="/events" className="transition-colors duration-250 hover:text-gallery-accentDark">
+                Events
+              </Link>
+              <Link to="/bio" className="transition-colors duration-250 hover:text-gallery-accentDark">
+                Biography
+              </Link>
+            </div>
+          </div>
 
-          </nav>
-
+          {/* Connect */}
+          <div>
+            <h3 className="mb-6 text-xs uppercase tracking-[0.2em] text-gallery-inkSoft">
+              Connect
+            </h3>
+            <div className="flex flex-col gap-4 text-sm text-gallery-ink">
+              {artist?.instagram && (
+                <a
+                  href={`https://instagram.com/${artist.instagram.replace("@", "")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="transition-colors duration-250 hover:text-gallery-accentDark"
+                >
+                  Instagram
+                </a>
+              )}
+              {artist?.email && (
+                <a
+                  href={`mailto:${artist.email}`}
+                  className="transition-colors duration-250 hover:text-gallery-accentDark"
+                >
+                  {artist.email}
+                </a>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-[#F0EEE9] flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-[#9A9A9A]">
-
-          <p>
-            © {new Date().getFullYear()} Sahar Alizadeh.
-            All rights reserved.
-          </p>
-
-          <p>
-            Designed & Developed with React & Django
-          </p>
-
+        <div className="mt-14 flex flex-col gap-3 border-t border-gallery-line pt-6 text-xs text-gallery-inkSoft md:flex-row md:justify-between">
+          <p>© {new Date().getFullYear()} Sahar Alizadeh. All rights reserved.</p>
+          <p>Designed & Developed with React & Django</p>
         </div>
-
       </div>
     </footer>
   );

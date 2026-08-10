@@ -1,25 +1,23 @@
-import HeroSection from "../components/home/HeroSection";
-import LatestWorks from "../components/home/LatestWorks";
-import EventsPreview from "../components/home/EventsPreview";
-import AboutPreview from "../components/home/AboutPreview";
+import { useState } from "react";
+import DynamicMeetingSlider from "../components/home/DynamicMeetingSlider";
+import ArtworkGallery from "../components/home/ArtworkGallery";
 import Footer from "../components/home/Footer";
+import Container from "../components/layout/Container";
+import SearchBar from "../components/SearchBar";
 
+// This is now the site's main page: the meeting slider up top, then the
+// full works listing (with search) below — there's no separate /works page.
 export default function HomePage() {
+  const [query, setQuery] = useState("");
+
   return (
     <>
-      <HeroSection />
+      <DynamicMeetingSlider />
 
-      <section className="my-28">
-        <LatestWorks />
-      </section>
-
-      <section className="my-28">
-        <EventsPreview />
-      </section>
-
-      <section className="my-28">
-        <AboutPreview />
-      </section>
+      <Container>
+        <SearchBar value={query} onChange={setQuery} />
+        <ArtworkGallery query={query} />
+      </Container>
 
       <Footer />
     </>

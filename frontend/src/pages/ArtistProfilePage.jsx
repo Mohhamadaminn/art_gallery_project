@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../api/client";
+import Container from "../components/layout/Container";
 
 const iconProps = {
   width: 14,
@@ -66,22 +67,26 @@ function ArtistProfilePage() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
-        <div className="aspect-[4/5] max-w-md bg-[#EFEDE8] animate-pulse" />
-        <div className="space-y-4 pt-2">
-          <div className="h-8 w-2/3 bg-[#EFEDE8] animate-pulse" />
-          <div className="h-3 w-1/3 bg-[#EFEDE8] animate-pulse" />
-          <div className="h-24 w-full bg-[#EFEDE8] animate-pulse" />
+      <Container>
+        <div className="grid grid-cols-1 gap-16 md:grid-cols-5">
+          <div className="aspect-[4/5] animate-pulse rounded-2xl bg-gallery-line/50 md:col-span-3" />
+          <div className="space-y-4 pt-2 md:col-span-2">
+            <div className="h-8 w-2/3 animate-pulse rounded-lg bg-gallery-line/50" />
+            <div className="h-3 w-1/3 animate-pulse rounded-lg bg-gallery-line/50" />
+            <div className="h-24 w-full animate-pulse rounded-lg bg-gallery-line/50" />
+          </div>
         </div>
-      </div>
+      </Container>
     );
   }
 
   if (error || !artist) {
     return (
-      <div className="text-center py-20 text-sm tracking-wide text-[#B85C4A]">
-        {error || "Profile not found"}
-      </div>
+      <Container>
+        <div className="py-20 text-center text-sm tracking-wide text-gallery-accentDark">
+          {error || "Profile not found"}
+        </div>
+      </Container>
     );
   }
 
@@ -104,62 +109,67 @@ function ArtistProfilePage() {
   ].filter(Boolean);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
-      <div className="aspect-[4/5] bg-[#EFEDE8] overflow-hidden">
-        {artist.profile_picture ? (
-          <img
-            src={artist.profile_picture}
-            alt={artist.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-[#8C8C8C] text-xs tracking-[0.15em] uppercase">
-            No portrait
-          </div>
-        )}
-      </div>
+    // 3/5 - 2/5 split so the portrait reads as the dominant element,
+    // per the editorial-layout brief, instead of an even 50/50 grid.
+    <Container>
+      <div className="grid grid-cols-1 gap-16 md:grid-cols-5">
+        <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-gallery-line/40 md:col-span-3">
+          {artist.profile_picture ? (
+            <img
+              src={artist.profile_picture}
+              alt={artist.name}
+              className="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.02]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-[0.15em] text-gallery-inkSoft">
+              No portrait
+            </div>
+          )}
+        </div>
 
-      <div className="pt-2">
-        <h1
-          className="text-3xl font-bold mb-2 text-[#1A1A1A]"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
-          {artist.name}
-        </h1>
-
-        {artist.location && (
-          <p className="flex items-center gap-1.5 text-xs tracking-[0.1em] uppercase text-[#8C8C8C] mb-8">
-            <MapPin width={12} height={12} className="text-[#B85C4A]" />
-            {artist.location}
+        <div className="pt-2 md:col-span-2">
+          <p className="mb-4 text-xs uppercase tracking-[0.25em] text-gallery-accentDark">
+            Contemporary Artist
           </p>
-        )}
 
-        {artist.bio && (
-          <p className="text-[#4A4A4A] leading-relaxed whitespace-pre-line mb-10">
-            {artist.bio}
-          </p>
-        )}
+          <h1 className="font-heading mb-2 text-3xl font-extrabold tracking-tight text-gallery-ink">
+            {artist.name}
+          </h1>
 
-        {contacts.length > 0 && (
-          <div className="border-t border-[#E3E0D9] pt-6 space-y-3">
-            {contacts.map(({ icon: Icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "noreferrer" : undefined}
-                className="flex items-center gap-3 text-sm text-[#4A4A4A] hover:text-[#B85C4A] transition-colors w-fit"
-              >
-                <span className="flex items-center justify-center w-7 h-7 border border-[#E3E0D9] text-[#8C8C8C]">
-                  <Icon />
-                </span>
-                {label}
-              </a>
-            ))}
-          </div>
-        )}
+          {artist.location && (
+            <p className="mb-10 flex items-center gap-1.5 text-xs uppercase tracking-[0.1em] text-gallery-inkSoft">
+              <MapPin width={12} height={12} className="text-gallery-accentDark" />
+              {artist.location}
+            </p>
+          )}
+
+          {artist.bio && (
+            <p className="mb-10 whitespace-pre-line leading-relaxed text-gallery-inkSoft">
+              {artist.bio}
+            </p>
+          )}
+
+          {contacts.length > 0 && (
+            <div className="space-y-3 border-t border-gallery-line pt-6">
+              {contacts.map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noreferrer" : undefined}
+                  className="flex w-fit items-center gap-3 text-sm text-gallery-inkSoft transition-colors duration-250 hover:text-gallery-accentDark"
+                >
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full border border-gallery-line text-gallery-inkSoft">
+                    <Icon />
+                  </span>
+                  {label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

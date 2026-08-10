@@ -58,6 +58,7 @@ class Meeting(models.Model):
     def __str__(self):
         return self.title
 
+
     @property
     def seats_left(self):
         return self.capacity - self.registrations.filter(is_paid=True).count()

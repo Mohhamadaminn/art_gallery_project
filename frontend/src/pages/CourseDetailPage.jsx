@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import apiClient from "../api/client";
 import { cancelRegistration } from "../api/orders";
 import AddToCartButton from "../components/AddToCartButton";
+import Container from "../components/layout/Container";
 
 function CourseDetailPage() {
   const { id } = useParams();
@@ -39,81 +40,74 @@ function CourseDetailPage() {
       setCancelling(false);
     }
   };
+  
 
   if (loading) {
-    return <div className="aspect-[4/5] max-w-md bg-[#EFEDE8] animate-pulse" />;
+    return (
+      <Container>
+        <div className="aspect-[4/5] max-w-md animate-pulse rounded-2xl bg-gallery-line/50" />
+      </Container>
+    );
   }
 
   if (error || !course) {
     return (
-      <div className="text-center py-20 text-sm tracking-wide text-[#B85C4A]">
-        {error || "Course not found"}
-      </div>
+      <Container>
+        <div className="py-20 text-center text-sm tracking-wide text-gallery-accentDark">
+          {error || "Course not found"}
+        </div>
+      </Container>
     );
   }
 
   return (
-    <div>
+    <Container>
       <Link
         to="/events"
-        className="text-xs tracking-[0.1em] uppercase text-[#8C8C8C] hover:text-[#1A1A1A] transition-colors"
+        className="text-xs uppercase tracking-[0.1em] text-gallery-inkSoft transition-colors duration-250 hover:text-gallery-ink"
       >
         ← Back to Events
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-14 mt-10">
-        <div className="aspect-[4/5] bg-[#EFEDE8] overflow-hidden">
+      <div className="mt-10 grid grid-cols-1 gap-14 md:grid-cols-2">
+        <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-gallery-line/40">
           {course.image ? (
-            <img
-              src={course.image}
-              alt={course.title}
-              className="w-full h-full object-cover"
-            />
+            <img src={course.image} alt={course.title} className="h-full w-full object-cover" />
           ) : null}
         </div>
 
         <div>
-          <h1
-            className="text-3xl font-bold mb-2"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+          <span className="mb-4 inline-block rounded-full border border-gallery-line bg-white px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-gallery-inkSoft">
+            Course
+          </span>
+
+          <h1 className="font-heading mb-2 text-3xl font-extrabold tracking-tight text-gallery-ink">
             {course.title}
           </h1>
           {course.price != null && (
-            <p className="text-xs tracking-[0.1em] uppercase text-[#8C8C8C] mb-1">
+            <p className="mb-1 text-xs uppercase tracking-[0.1em] text-gallery-inkSoft">
               ${course.price}
             </p>
           )}
           {course.seats_left != null && (
-            <p className="text-xs tracking-[0.1em] uppercase text-[#8C8C8C] mb-8">
+            <p className="mb-8 text-xs uppercase tracking-[0.1em] text-gallery-inkSoft">
               {course.seats_left} seats left
             </p>
           )}
           {course.description && (
-            <p className="text-[#4A4A4A] leading-relaxed mb-8">
-              {course.description}
-            </p>
+            <p className="mb-8 leading-relaxed text-gallery-inkSoft">{course.description}</p>
           )}
 
-          {course.is_registered ? (
-            <div>
-              <p className="text-xs tracking-[0.1em] uppercase text-[#4A9A6A] mb-3">
-                You're registered for this course
-              </p>
-              <button
-                onClick={handleCancel}
-                disabled={cancelling}
-                className="text-xs tracking-[0.1em] uppercase border border-[#B85C4A] text-[#B85C4A] px-6 py-3 hover:bg-[#B85C4A] hover:text-white transition-colors disabled:opacity-50"
-              >
-                {cancelling ? "Cancelling..." : "Cancel registration"}
-              </button>
-            </div>
-          ) : (
-            <AddToCartButton itemType="course" objectId={course.id} />
-          )}
+          <AddToCartButton
+            itemType="course"
+            objectId={course.id}
+            isRegistered={course.is_registered}
+            onCancel={handleCancel}
+            cancelling={cancelling}
+          />
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

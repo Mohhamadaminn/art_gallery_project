@@ -4,7 +4,6 @@ import Layout from "./components/layout/Layout";
 
 import HomePage from "./pages/HomePage";
 
-import WorksPage from "./pages/WorksPage";
 import WorkDetailPage from "./pages/WorkDetailPage";
 
 import EventsPage from "./pages/EventsPage";
@@ -30,11 +29,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-      },
-
-      {
-        path: "works",
-        element: <WorksPage />,
       },
 
       {

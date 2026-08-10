@@ -5,42 +5,62 @@ export default function CartPage() {
   const { cart, loading, removeFromCart } = useCart();
   const navigate = useNavigate();
 
-  if (loading) return <p className="text-center py-20">Loading cart...</p>;
+  if (loading) {
+    return (
+      <div className="mx-auto max-w-xl px-6 py-16 md:px-10">
+        <p className="py-20 text-center text-gallery-inkSoft">Loading cart...</p>
+      </div>
+    );
+  }
 
   if (cart.items.length === 0) {
     return (
-      <div className="text-center py-20">
-        <p className="text-lg text-[#8C8C8C]">Your cart is empty</p>
-        <Link to="/events" className="text-xs uppercase text-[#C97B63] mt-2 inline-block">
-          Browse courses & meetings
-        </Link>
+      <div className="mx-auto max-w-xl px-6 py-16 md:px-10">
+        <div className="py-20 text-center">
+          <p className="text-lg text-gallery-inkSoft">Your cart is empty</p>
+          <Link
+            to="/events"
+            className="mt-2 inline-block text-xs uppercase tracking-[0.1em] text-gallery-accentDark hover:text-gallery-ink"
+          >
+            Browse courses & meetings
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-xl mx-auto py-10">
-      <h1 className="text-2xl mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+    <div className="mx-auto max-w-xl px-6 py-16 md:px-10">
+      <h1 className="font-heading mb-6 text-2xl font-extrabold tracking-tight text-gallery-ink">
         Your Cart
       </h1>
+
       <ul className="space-y-4">
         {cart.items.map((item) => (
-          <li key={item.id} className="flex justify-between items-center border-b pb-3">
-            <span>{item.title} — ${item.price}</span>
+          <li
+            key={item.id}
+            className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-sm"
+          >
+            <span className="text-sm text-gallery-ink">
+              {item.title} — ${item.price}
+            </span>
             <button
               onClick={() => removeFromCart(item.id)}
-              className="text-xs uppercase text-[#B85C4A]"
+              className="text-xs uppercase tracking-[0.1em] text-gallery-accentDark transition-colors duration-250 hover:text-gallery-ink"
             >
               Remove
             </button>
           </li>
         ))}
       </ul>
-      <div className="mt-6 flex justify-between items-center">
-        <span className="font-bold">Total: ${cart.total_price}</span>
+
+      <div className="mt-8 flex items-center justify-between">
+        <span className="font-heading font-bold text-gallery-ink">
+          Total: ${cart.total_price}
+        </span>
         <button
           onClick={() => navigate("/checkout")}
-          className="text-xs uppercase px-6 py-3 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors"
+          className="rounded-2xl bg-gallery-accent px-6 py-3 text-xs font-bold uppercase tracking-[0.15em] text-gallery-ink transition-colors duration-250 hover:bg-gallery-ink hover:text-white"
         >
           Proceed to checkout
         </button>
