@@ -68,11 +68,6 @@ export default function Navbar() {
               {item.label}
             </NavLink>
           ))}
-          {user && (
-            <NavLink to="/orders" className={navClass}>
-              Orders
-            </NavLink>
-          )}
         </nav>
 
         <div className="flex gap-2">
