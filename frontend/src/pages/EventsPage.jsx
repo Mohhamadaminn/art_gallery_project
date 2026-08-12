@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import apiClient from "../api/client";
 import Container from "../components/layout/Container";
 
 export default function EventsPage() {
+  const { t } = useTranslation();
+
   const [courses, setCourses] = useState([]);
   const [meetings, setMeetings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,6 +14,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     setLoading(true);
+
     Promise.all([apiClient.get("/courses/"), apiClient.get("/meetings/")])
       .then(([coursesRes, meetingsRes]) => {
         let coursesData = coursesRes.data;
@@ -26,10 +30,10 @@ export default function EventsPage() {
       })
       .catch((err) => {
         console.error(err);
-        setError("Failed to load events");
+        setError(t("events.loadError"));
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [t]);
 
   const { upcoming, past } = useMemo(() => {
     const now = new Date();
@@ -39,6 +43,7 @@ export default function EventsPage() {
       type: "meeting",
       eventDate: m.date_time,
     }));
+
     const courseEvents = courses.map((c) => ({
       ...c,
       type: "course",
@@ -67,38 +72,41 @@ export default function EventsPage() {
     <Container>
       <div className="mb-16">
         <p className="mb-3 text-xs uppercase tracking-[0.25em] text-gallery-accentDark">
-          Events
+          {t("events.label")}
         </p>
 
         <h1 className="font-heading mb-5 text-4xl font-extrabold tracking-tight text-gallery-ink md:text-5xl">
-          Courses & Meetings
+          {t("events.title")}
         </h1>
 
         <p className="max-w-2xl leading-8 text-gallery-inkSoft">
-          Discover upcoming courses and artist meetings. Register to improve
-          your artistic skills, participate in discussions, and connect with
-          the community.
+          {t("events.description")}
         </p>
       </div>
 
       {loading ? (
         <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="aspect-[4/5] animate-pulse rounded-2xl bg-gallery-line/50" />
+            <div
+              key={i}
+              className="aspect-[4/5] animate-pulse rounded-2xl bg-gallery-line/50"
+            />
           ))}
         </div>
       ) : error ? (
-        <div className="py-20 text-center text-gallery-accentDark">{error}</div>
+        <div className="py-20 text-center text-gallery-accentDark">
+          {error}
+        </div>
       ) : (
         <>
           <section>
             <h2 className="mb-8 text-xs uppercase tracking-[0.2em] text-gallery-inkSoft">
-              Upcoming Events
+              {t("events.upcoming")}
             </h2>
 
             {upcoming.length === 0 ? (
               <p className="pb-20 text-gallery-inkSoft">
-                No upcoming events right now — check back soon.
+                {t("events.noUpcoming")}
               </p>
             ) : (
               <div className="mb-28 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
@@ -128,7 +136,7 @@ export default function EventsPage() {
                             : "border border-gallery-line bg-white/90 text-gallery-inkSoft"
                         }`}
                       >
-                        {event.type}
+                        {t(`events.types.${event.type}`)}
                       </span>
                     </div>
 
@@ -142,7 +150,9 @@ export default function EventsPage() {
                       </p>
 
                       {event.location && (
-                        <p className="mt-1 text-sm text-gallery-inkSoft">{event.location}</p>
+                        <p className="mt-1 text-sm text-gallery-inkSoft">
+                          {event.location}
+                        </p>
                       )}
 
                       {event.description && (
@@ -153,11 +163,13 @@ export default function EventsPage() {
 
                       <div className="mt-4 flex items-center justify-between text-xs text-gallery-inkSoft">
                         <span>${event.price}</span>
-                        <span>{event.seats_left} seats left</span>
+                        <span>
+                          {event.seats_left} {t("events.seatsLeft")}
+                        </span>
                       </div>
 
                       <span className="mt-5 inline-block rounded-2xl bg-gallery-accent px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-gallery-ink transition-colors duration-250 group-hover:bg-gallery-ink group-hover:text-white">
-                        Register
+                        {t("events.register")}
                       </span>
                     </div>
                   </Link>
@@ -169,12 +181,15 @@ export default function EventsPage() {
           {past.length > 0 && (
             <section>
               <h2 className="mb-8 text-xs uppercase tracking-[0.2em] text-gallery-inkSoft">
-                Past Events
+                {t("events.past")}
               </h2>
 
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
                 {past.map((event) => (
-                  <div key={`${event.type}-${event.id}-past`} className="group opacity-80 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0">
+                  <div
+                    key={`${event.type}-${event.id}-past`}
+                    className="group opacity-80 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0"
+                  >
                     <div className="aspect-square overflow-hidden rounded-xl bg-gallery-line/40">
                       {event.image && (
                         <img
@@ -184,7 +199,10 @@ export default function EventsPage() {
                         />
                       )}
                     </div>
-                    <p className="mt-3 text-center text-xs text-gallery-inkSoft">{event.title}</p>
+
+                    <p className="mt-3 text-center text-xs text-gallery-inkSoft">
+                      {event.title}
+                    </p>
                   </div>
                 ))}
               </div>

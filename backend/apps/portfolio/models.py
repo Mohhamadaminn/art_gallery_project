@@ -58,7 +58,6 @@ class Meeting(models.Model):
     def __str__(self):
         return self.title
 
-
     @property
     def seats_left(self):
         return self.capacity - self.registrations.filter(is_paid=True).count()
@@ -70,7 +69,6 @@ class CourseRegistration(models.Model):
     registered_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
     payment_reference = models.CharField(max_length=255, blank=True)
-    reminder_sent = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('user', 'course')
@@ -85,7 +83,6 @@ class MeetingRegistration(models.Model):
     registered_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
     payment_reference = models.CharField(max_length=255, blank=True)
-    reminder_sent = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('user', 'meeting')

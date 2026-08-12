@@ -1,14 +1,8 @@
 import { NavLink, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 
-// Labels follow the design spec (Home / Artist / Meetings). "Works" was
-// dropped — the home page IS the works listing, so a separate link would
-// just point back to the same content.
-const NAV_ITEMS = [
-  { label: "Artist", to: "/bio" },
-  { label: "Meetings", to: "/events" },
-];
 
 const navClass = ({ isActive }) =>
   `text-sm font-medium transition-colors duration-250 ${
@@ -48,9 +42,15 @@ function LogoutIcon(props) {
 }
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const { cart } = useCart();
   const cartCount = cart?.items?.length ?? 0;
+
+  const NAV_ITEMS = [
+    { label: t("nav.artist"), to: "/bio" },
+    { label: t("nav.events"), to: "/events" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-gallery-line bg-gallery-bg/85 backdrop-blur">
@@ -61,7 +61,7 @@ export default function Navbar() {
 
         <nav className="hidden items-center gap-8 md:flex">
           <NavLink to="/" end className={navClass}>
-            Home
+            {t("nav.home")}
           </NavLink>
           {NAV_ITEMS.map((item) => (
             <NavLink key={item.to} to={item.to} className={navClass}>
@@ -70,10 +70,11 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+
           <NavLink
             to="/cart"
-            aria-label="Cart"
+            aria-label={t("nav.cartAria")}
             className={({ isActive }) =>
               `relative grid h-10 w-10 place-items-center rounded-xl border transition-colors duration-250 ${
                 isActive
@@ -95,7 +96,7 @@ export default function Navbar() {
           {user ? (
             <button
               onClick={logout}
-              aria-label="Log out"
+              aria-label={t("nav.logOutAria")}
               className="grid h-10 w-10 place-items-center rounded-xl border border-gallery-line bg-white text-gallery-ink transition-colors duration-250 hover:bg-gallery-accent"
             >
               <LogoutIcon />
@@ -103,7 +104,7 @@ export default function Navbar() {
           ) : (
             <NavLink
               to="/login"
-              aria-label="Sign in"
+              aria-label={t("nav.signInAria")}
               className={({ isActive }) =>
                 `grid h-10 w-10 place-items-center rounded-xl border transition-colors duration-250 ${
                   isActive

@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "home": "Home",
+    "artist": "Artist",
+    "events": "Event",
+    "cartAria": "Cart",
+    "signInAria": "Sign in",
+    "logOutAria": "Log out"
+  },
+  "auth": {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "emailOptional": "Email (optional)",
+    "phone": "Phone number",
+    "age": "Age",
+    "ageOptional": "Age (optional)",
+    "loginTitle": "Log in",
+    "signupTitle": "Sign up",
+    "loginButton": "Log in",
+    "signupButton": "Sign up",
+    "invalidCredentials": "Invalid username or password.",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?"
+  },
+  "footer": {
+    "description": "Contemporary artist creating original artworks and artistic experiences.",
+    "explore": "Explore",
+    "biography": "Biography",
+    "connect": "Connect",
+    "allRightsReserved": "All rights reserved."
+  },
+  "events": {
+    "label": "Events",
+    "title": "Courses & Meetings",
+    "description": "Discover upcoming courses and artist meetings. Register to improve your artistic skills, participate in discussions, and connect with the community.",
+    "loadError": "Failed to load events",
+    "upcoming": "Upcoming Events",
+    "noUpcoming": "No upcoming events right now — check back soon.",
+    "past": "Past Events",
+    "register": "Register",
+    "seatsLeft": "seats left",
+    "types": {
+      "course": "Course",
+      "meeting": "Meeting"
+    }
+  }
+}

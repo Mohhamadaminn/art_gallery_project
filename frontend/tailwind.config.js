@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+
   theme: {
     extend: {
       colors: {
@@ -13,11 +14,13 @@ export default {
           line: "#DADAD4",
         },
       },
+
       fontFamily: {
-        heading: ["Manrope", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        heading: ["Vazirmatn", "sans-serif"],
+        body: ["Vazirmatn", "sans-serif"],
       },
     },
   },
-  plugins: [],
+
+  plugins: [require("tailwindcss-rtl")],
 };

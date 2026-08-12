@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import apiClient from "../../api/client";
 
 export default function Footer() {
+  const { t } = useTranslation();
   const [artist, setArtist] = useState(null);
 
   useEffect(() => {
@@ -22,24 +24,35 @@ export default function Footer() {
               Sahar Alizadeh
             </h2>
             <p className="max-w-sm text-sm leading-7 text-gallery-inkSoft">
-              Contemporary artist creating original artworks and artistic experiences.
+              {t("footer.description")}
             </p>
           </div>
 
           {/* Explore */}
           <div>
             <h3 className="mb-6 text-xs uppercase tracking-[0.2em] text-gallery-inkSoft">
-              Explore
+              {t("footer.explore")}
             </h3>
             <div className="flex flex-col gap-4 text-sm text-gallery-ink">
-              <Link to="/" className="transition-colors duration-250 hover:text-gallery-accentDark">
-                Home
+              <Link
+                to="/"
+                className="transition-colors duration-250 hover:text-gallery-accentDark"
+              >
+                {t("nav.home")}
               </Link>
-              <Link to="/events" className="transition-colors duration-250 hover:text-gallery-accentDark">
-                Events
+
+              <Link
+                to="/events"
+                className="transition-colors duration-250 hover:text-gallery-accentDark"
+              >
+                {t("nav.events")}
               </Link>
-              <Link to="/bio" className="transition-colors duration-250 hover:text-gallery-accentDark">
-                Biography
+
+              <Link
+                to="/bio"
+                className="transition-colors duration-250 hover:text-gallery-accentDark"
+              >
+                {t("footer.biography")}
               </Link>
             </div>
           </div>
@@ -47,12 +60,16 @@ export default function Footer() {
           {/* Connect */}
           <div>
             <h3 className="mb-6 text-xs uppercase tracking-[0.2em] text-gallery-inkSoft">
-              Connect
+              {t("footer.connect")}
             </h3>
+
             <div className="flex flex-col gap-4 text-sm text-gallery-ink">
               {artist?.instagram && (
                 <a
-                  href={`https://instagram.com/${artist.instagram.replace("@", "")}`}
+                  href={`https://instagram.com/${artist.instagram.replace(
+                    "@",
+                    ""
+                  )}`}
                   target="_blank"
                   rel="noreferrer"
                   className="transition-colors duration-250 hover:text-gallery-accentDark"
@@ -60,6 +77,7 @@ export default function Footer() {
                   Instagram
                 </a>
               )}
+
               {artist?.email && (
                 <a
                   href={`mailto:${artist.email}`}
@@ -72,9 +90,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-gallery-line pt-6 text-xs text-gallery-inkSoft md:flex-row md:justify-between">
-          <p>© {new Date().getFullYear()} Sahar Alizadeh. All rights reserved.</p>
-          <p>Designed & Developed with React & Django</p>
+        <div className="mt-14 border-t border-gallery-line pt-6 text-xs text-gallery-inkSoft">
+          <p>
+            © {new Date().getFullYear()} Sahar Alizadeh.{" "}
+            {t("footer.allRightsReserved")}
+          </p>
         </div>
       </div>
     </footer>
