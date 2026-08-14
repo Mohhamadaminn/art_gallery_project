@@ -56,7 +56,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-gallery-line bg-gallery-bg/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-10">
         <Link to="/" className="font-heading text-xl font-extrabold tracking-tight text-gallery-ink">
-          Sahar Alizadeh
+          {t("owner.name")}
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

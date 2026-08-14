@@ -7,6 +7,9 @@
     "signInAria": "ورود",
     "logOutAria": "خروج"
   },
+  "owner": {
+    "name": "سحر علی‌زاده"
+  },
   "auth": {
     "username": "نام کاربری",
     "password": "رمز عبور",
@@ -17,16 +20,15 @@
     "ageOptional": "سن (اختیاری)",
     "loginTitle": "ورود",
     "signupTitle": "ثبت‌نام",
-    "loginButton": "ورود",
-    "signupButton": "ثبت‌نام",
+    "loginButton": "ثبت‌نام",
     "invalidCredentials": "نام کاربری یا رمز عبور نامعتبر است.",
     "alreadyHaveAccount": "قبلاً حساب کاربری دارید؟",
     "noAccount": "حساب کاربری ندارید؟"
   },
   "footer": {
-    "description": "هنرمندی معاصر که آثار هنری اصیل و تجربه‌های هنری خلق می‌کند.",
+    "description": "مجری و مدرس نقاشی، برگزار‌کننده ایونت‌های هنری.",
     "explore": "کاوش",
-    "biography": "زندگینامه",
+    "biography": "درباره",
     "connect": "ارتباط",
     "allRightsReserved": "تمامی حقوق محفوظ است."
   },
@@ -44,5 +46,12 @@
       "course": "دوره",
       "meeting": "جلسه"
     }
+  },
+  "slider": {
+    "registrationOpen": "ثبت‌نام باز است",
+    "registerNow": "همین حالا ثبت‌نام کنید"
+  },
+  "search": {
+    "placeholder": "جستجوی آثار بر اساس عنوان..."
   }
 }

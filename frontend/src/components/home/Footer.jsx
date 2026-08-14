@@ -21,7 +21,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h2 className="font-heading mb-5 text-2xl font-extrabold tracking-tight text-gallery-ink">
-              Sahar Alizadeh
+              {t("owner.name")}
             </h2>
             <p className="max-w-sm text-sm leading-7 text-gallery-inkSoft">
               {t("footer.description")}

@@ -7,6 +7,9 @@
     "signInAria": "Sign in",
     "logOutAria": "Log out"
   },
+  "owner": {
+        "name": "Sahar Alizadeh"
+      },
   "auth": {
     "username": "Username",
     "password": "Password",
@@ -44,5 +47,12 @@
       "course": "Course",
       "meeting": "Meeting"
     }
+  },
+  "slider": {
+    "registrationOpen": "Registration Open",
+    "registerNow": "Register Now"
+  },
+  "search": {
+    "placeholder": "Search artworks by title..."
   }
 }
