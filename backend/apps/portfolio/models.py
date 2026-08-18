@@ -71,7 +71,12 @@ class CourseRegistration(models.Model):
     payment_reference = models.CharField(max_length=255, blank=True)
 
     class Meta:
-        unique_together = ('user', 'course')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'course'],
+                name='unique_user_course_registration'
+            ),
+        ]
 
     def __str__(self):
         return f'{self.user} -> {self.course}'
@@ -85,7 +90,12 @@ class MeetingRegistration(models.Model):
     payment_reference = models.CharField(max_length=255, blank=True)
 
     class Meta:
-        unique_together = ('user', 'meeting')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'meeting'],
+                name='unique_user_meeting_registration'
+            ),
+        ]
 
     def __str__(self):
         return f'{self.user} -> {self.meeting}'
