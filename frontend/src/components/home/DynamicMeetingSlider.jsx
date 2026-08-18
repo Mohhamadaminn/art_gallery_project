@@ -7,34 +7,26 @@ export default function DynamicMeetingSlider() {
   const { t } = useTranslation();
 
   const [meeting, setMeeting] = useState(null);
-  const [pastEvent, setPastEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([apiClient.get("/meetings/"), apiClient.get("/pastevents/")])
-      .then(([meetingsRes, pastEventsRes]) => {
-        let meetings = meetingsRes.data;
-        let pastEvents = pastEventsRes.data;
+    apiClient
+      .get("/meetings/")
+      .then((response) => {
+        let meetings = response.data;
 
-        if (meetings.results) meetings = meetings.results;
-        if (pastEvents.results) pastEvents = pastEvents.results;
+        if (meetings.results) {
+          meetings = meetings.results;
+        }
 
-        // Find nearest upcoming meeting
         const upcomingMeetings = meetings
           .filter((item) => new Date(item.date_time) > new Date())
-          .sort((a, b) => new Date(a.date_time) - new Date(b.date_time));
-
-        const nextMeeting = upcomingMeetings[0];
-        setMeeting(nextMeeting);
-
-        // Find related past event — PastEvent has content_type + object_id,
-        // match object_id with meeting id.
-        if (nextMeeting) {
-          const relatedPastEvent = pastEvents.find(
-            (event) => event.object_id === nextMeeting.id
+          .sort(
+            (a, b) =>
+              new Date(a.date_time) - new Date(b.date_time)
           );
-          setPastEvent(relatedPastEvent || pastEvents[0]);
-        }
+
+        setMeeting(upcomingMeetings[0]);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -49,7 +41,7 @@ export default function DynamicMeetingSlider() {
       className="group relative block h-[70vh] min-h-[460px] overflow-hidden"
     >
       <img
-        src={pastEvent?.image || meeting.image}
+        src={meeting.image}
         alt={meeting.title}
         className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
       />
@@ -63,7 +55,6 @@ export default function DynamicMeetingSlider() {
           <h1 className="font-heading mb-6 text-[clamp(28px,4.5vw,52px)] font-extrabold leading-tight tracking-tight">
             {meeting.title}
           </h1>
-
 
           {meeting.location && (
             <p className="mb-8 text-sm text-white/85">

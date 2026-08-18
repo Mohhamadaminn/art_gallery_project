@@ -1,8 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.conf import settings
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 
 
 class Artist(models.Model):
@@ -101,22 +99,3 @@ class MeetingRegistration(models.Model):
         return f'{self.user} -> {self.meeting}'
 
 
-class PastEvent(models.Model):
-    content_type = models.ForeignKey(
-        ContentType,
-        on_delete=models.CASCADE
-    )
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey("content_type", "object_id")
-
-    image = models.ImageField(upload_to="gallery/")
-    caption = models.CharField(max_length=150)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["-created_at"]
-
-    def __str__(self):
-        return self.caption
-    

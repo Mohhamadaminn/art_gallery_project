@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 
-from .models import Artist, ArtistWork, Course, Meeting, CourseRegistration, MeetingRegistration, PastEvent
+from .models import Artist, ArtistWork, Course, Meeting, CourseRegistration, MeetingRegistration
 
 class ArtistSerializer(serializers.ModelSerializer):
 
@@ -81,19 +81,4 @@ class MeetingRegistrationSerializer(serializers.ModelSerializer):
         if meeting.date_time < timezone.now():
             raise serializers.ValidationError("This meeting has already taken place.")
         return meeting
-
-
-class PastEventSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PastEvent
-        fields = [
-            "id",
-            "content_type",
-            "object_id",
-            "image",
-            "caption",
-            "created_at",
-        ]
-
-
 
