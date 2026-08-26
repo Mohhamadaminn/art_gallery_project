@@ -7,19 +7,18 @@ class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
-        fields = ['id', 'name', 'bio', 'profile_picture', 'email', 'phone', 'location', 'instagram',]
-        read_only_fields = ['created_at']
-
+        fields = '__all__'
 
 class ArtistWorkSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = ArtistWork
-        fields = "__all__"
+        fields = '__all__'
+        read_only_fields = ['created_at']
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    seats_left = serializers.ReadOnlyField()
+    seats_left = serializers.ReadOnlyField()    # not a model field
     is_registered = serializers.SerializerMethodField()
 
     class Meta:
@@ -27,11 +26,11 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'image', 'price',
                   'start_date', 'capacity', 'seats_left', 'is_registered']
 
-    def get_is_registered(self, obj):
+    def get_is_registered(self, course):
         request = self.context.get('request')
         if not request or not request.user.is_authenticated:
             return False
-        return obj.registrations.filter(user=request.user, is_paid=True).exists()
+        return course.registrations.filter(user=request.user, is_paid=True).exists()
 
 
 
